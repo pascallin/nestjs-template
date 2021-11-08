@@ -2,7 +2,7 @@ import { readFileSync } from 'fs';
 import * as yaml from 'js-yaml';
 import { join } from 'path';
 
-const env = process.env.NODE_ENV || 'development';
+const env = process.env.NODE_ENV || 'dev';
 const YAML_CONFIG_FILENAME = `${env}.config.yml`;
 
 export default () => {
