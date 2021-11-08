@@ -6,6 +6,8 @@ import configuration from './config/configuration';
 import { HealthModule } from './health/health.module';
 import { AMQPModule } from './amqp';
 import { RedisModule } from './redis';
+import { ExampleModule } from './example/example.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -42,6 +44,9 @@ import { RedisModule } from './redis';
       }),
       inject: [ConfigService],
     }),
+    AuthModule,
+    // NOTE: just for example
+    ExampleModule,
   ],
 })
 export class AppModule {}

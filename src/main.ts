@@ -7,19 +7,19 @@ import * as helmet from 'helmet';
 import { AppModule } from './app.module';
 import { AllExceptionFilter } from './middlewares/exception.filter';
 import { ValidationPipe } from './middlewares/validation.pipe';
+import { RequestLogInterceptor } from './middlewares/requestLog.interceptor';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const configService = app.get(ConfigService);
 
   // swagger
-  if (configService.get('NODE_ENV') == 'development') {
+  if (configService.get('NODE_ENV') == 'dev') {
     const config = new DocumentBuilder()
-      .setTitle('CSP platform')
+      .setTitle("Pascal Lin's Netsjs Template")
       .setDescription('The CSP platform API')
       .setVersion('1.0')
-      .addBearerAuth({ type: 'http' }, 'admin')
-      .addBearerAuth({ type: 'http' }, 'member')
+      .addBearerAuth({ type: 'http' }, 'jwt')
       .build();
     const document = SwaggerModule.createDocument(app, config);
     SwaggerModule.setup('docs', app, document);
@@ -28,6 +28,7 @@ async function bootstrap() {
   // http server setting
   app.useGlobalPipes(new ValidationPipe());
   app.useGlobalFilters(new AllExceptionFilter());
+  app.useGlobalInterceptors(new RequestLogInterceptor());
   app.use(helmet());
   app.enableCors({ origin: ['localhost'] });
 

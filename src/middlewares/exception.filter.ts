@@ -4,12 +4,14 @@ import {
   ArgumentsHost,
   HttpException,
   HttpStatus,
+  Logger,
 } from '@nestjs/common';
 import { ValidationError } from 'class-validator';
 import { Request, Response } from 'express';
 
 @Catch()
 export class AllExceptionFilter implements ExceptionFilter {
+  private readonly logger = new Logger(AllExceptionFilter.name);
   catch(exception: unknown, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
@@ -18,6 +20,9 @@ export class AllExceptionFilter implements ExceptionFilter {
     let status = HttpStatus.INTERNAL_SERVER_ERROR;
     let message = exception['message'];
     let code = 'UNDEFINED';
+    if (exception instanceof Error) {
+      this.logger.error(exception.message, exception.stack);
+    }
     if (exception instanceof HttpException) {
       status = exception.getStatus();
     }
