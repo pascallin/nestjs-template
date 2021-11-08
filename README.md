@@ -8,6 +8,7 @@
 
 ```bash
 $ npm install # or yarn
+$ npm run prepare # prepare husky
 ```
 
 ## Running the app
