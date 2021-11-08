@@ -4,6 +4,7 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { ConfigService } from '@nestjs/config';
 import * as helmet from 'helmet';
 
+import { startAsClusterMode } from './cluster';
 import { AppModule } from './app.module';
 import { AllExceptionFilter } from './middlewares/exception.filter';
 import { ValidationPipe } from './middlewares/validation.pipe';
@@ -36,4 +37,9 @@ async function bootstrap() {
 
   new Logger('App').log(`Application is running on: ${await app.getUrl()}`);
 }
-bootstrap();
+
+if (process.env.CLUSTER_MODE.toUpperCase() === 'TRUE') {
+  startAsClusterMode(bootstrap);
+} else {
+  bootstrap();
+}
