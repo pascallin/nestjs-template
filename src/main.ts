@@ -8,7 +8,6 @@ import { startAsClusterMode } from './cluster';
 import { AppModule } from './app.module';
 import { AllExceptionFilter } from './middlewares/exception.filter';
 import { ValidationPipe } from './middlewares/validation.pipe';
-import { RequestLogInterceptor } from './middlewares/requestLog.interceptor';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -29,7 +28,6 @@ async function bootstrap() {
   // http server setting
   app.useGlobalPipes(new ValidationPipe());
   app.useGlobalFilters(new AllExceptionFilter());
-  app.useGlobalInterceptors(new RequestLogInterceptor());
   app.use(helmet());
   app.enableCors({ origin: ['localhost'] });
 

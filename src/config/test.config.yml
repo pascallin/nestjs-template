@@ -1,1 +1,4 @@
 JWT_SECRET: "!@^#*(&)TEST*(%&&^)"
+
+APP:
+  REQUEST_LOG: true
