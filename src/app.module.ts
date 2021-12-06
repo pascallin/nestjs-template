@@ -4,7 +4,11 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 
 import configuration from './config/configuration';
-import { RequestLogInterceptor, RequestIdInterceptor } from './middlewares';
+import {
+  RequestLogInterceptor,
+  RequestIdInterceptor,
+  ResponseInterceptor,
+} from './middlewares';
 import { HealthModule } from './health/health.module';
 import { AMQPModule } from './amqp';
 import { RedisModule } from './redis';
@@ -58,6 +62,10 @@ import { AuthModule } from './auth/auth.module';
     {
       provide: APP_INTERCEPTOR,
       useClass: RequestLogInterceptor,
+    },
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: ResponseInterceptor,
     },
   ],
 })

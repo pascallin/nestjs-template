@@ -1,4 +1,11 @@
 JWT_SECRET: "!@^#*(&)TEST*(%&&^)"
 
-APP:
-  REQUEST_LOG: false
+LOGGER_LEVEL:
+  - verbose
+  - debug
+  - warn
+  - log
+  - error
+ENABLE_REQUEST_LOG: true
+ENABLE_REQUEST_ID: true
+REQUEST_ID_HEADER: x-request-id

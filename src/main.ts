@@ -1,5 +1,5 @@
 import { NestFactory } from '@nestjs/core';
-import { Logger } from '@nestjs/common';
+import { Logger, LogLevel } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { ConfigService } from '@nestjs/config';
 import * as helmet from 'helmet';
@@ -12,6 +12,10 @@ import { ValidationPipe } from './middlewares/validation.pipe';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const configService = app.get(ConfigService);
+
+  // logger level
+  const loggerLevels = configService.get<LogLevel[]>('LOGGER_LEVEL');
+  app.useLogger(loggerLevels);
 
   // swagger
   if (configService.get('NODE_ENV') == 'dev') {
