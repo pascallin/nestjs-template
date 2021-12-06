@@ -8,7 +8,7 @@ import {
   RequestLogInterceptor,
   RequestIdInterceptor,
   ResponseInterceptor,
-} from './middlewares';
+} from './app/middlewares';
 import { HealthModule } from './health/health.module';
 import { AMQPModule } from './amqp';
 import { RedisModule } from './redis';

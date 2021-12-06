@@ -6,8 +6,8 @@ import * as helmet from 'helmet';
 
 import { startAsClusterMode } from './cluster';
 import { AppModule } from './app.module';
-import { AllExceptionFilter } from './middlewares/exception.filter';
-import { ValidationPipe } from './middlewares/validation.pipe';
+import { AllExceptionFilter } from './app/middlewares/exception.filter';
+import { ValidationPipe } from './app/middlewares/validation.pipe';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);

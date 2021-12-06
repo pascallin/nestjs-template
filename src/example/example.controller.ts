@@ -4,7 +4,7 @@ import { ApiTags, ApiBearerAuth, ApiExtraModels } from '@nestjs/swagger';
 import {
   AppResponse,
   AppResponseDto,
-} from '../decorators/appResponse.decorator';
+} from '../app/decorators/appResponse.decorator';
 
 @Controller('example')
 @ApiTags('example')
