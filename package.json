@@ -38,6 +38,7 @@
     "helmet": "^4.6.0",
     "ioredis": "^4.28.0",
     "mongoose": "^5.12.8",
+    "nanoid": "^3.1.30",
     "passport": "^0.4.1",
     "passport-jwt": "^4.0.0",
     "ramda": "^0.27.1",

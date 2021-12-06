@@ -17,7 +17,7 @@ export class RequestLogInterceptor implements NestInterceptor {
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
     const req: Request = context.switchToHttp().getRequest();
 
-    if (!this.configService.get<boolean>('APP.REQUEST_LOG')) {
+    if (!this.configService.get<boolean>('ENABLE_REQUEST_LOG')) {
       return next.handle();
     }
 
