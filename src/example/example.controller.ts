@@ -1,11 +1,11 @@
 import { Controller, Get, Logger, Request } from '@nestjs/common';
-import { AuthUser, Auth, CtxAuthUser } from '../auth';
+import { AuthUser, UseAuth, CtxAuthUser } from '../auth';
 import { ApiTags } from '@nestjs/swagger';
 import { AppOkResponse, AppResponse } from '../app';
 
 @Controller('example')
 @ApiTags('example')
-@Auth()
+@UseAuth()
 @AppResponse()
 export class ExampleController {
   private readonly logger = new Logger(ExampleController.name);
