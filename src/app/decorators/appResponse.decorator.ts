@@ -1,15 +1,11 @@
 import { applyDecorators, Type } from '@nestjs/common';
-import { ApiOkResponse, ApiProperty, getSchemaPath } from '@nestjs/swagger';
-
-export class AppResponseDto<T> {
-  @ApiProperty()
-  message: string;
-
-  @ApiProperty()
-  code: number;
-
-  data?: T;
-}
+import {
+  ApiInternalServerErrorResponse,
+  ApiOkResponse,
+  getSchemaPath,
+  ApiExtraModels,
+} from '@nestjs/swagger';
+import { AppResponseDto, AppExceptionResponseDto } from '../response.dto';
 
 const getArraySchema = <TModel extends Type<any>>(
   model: TModel,
@@ -32,7 +28,7 @@ const getObjectSchema = <TModel extends Type<any>>(
  *  `AppResponse({model: classDto, isArrat: true})`)
  * @returns
  */
-export const AppResponse = <TModel extends Type<any>>(params: {
+export const AppOkResponse = <TModel extends Type<any>>(params: {
   model?: TModel;
   isNull?: boolean;
   isArray?: boolean;
@@ -56,5 +52,22 @@ export const AppResponse = <TModel extends Type<any>>(params: {
         ],
       },
     }),
+  );
+};
+
+export const AppExceptionResponse = () => {
+  return applyDecorators(
+    ApiInternalServerErrorResponse({
+      schema: {
+        allOf: [{ $ref: getSchemaPath(AppExceptionResponseDto) }],
+      },
+    }),
+  );
+};
+
+export const AppResponse = () => {
+  return applyDecorators(
+    ApiExtraModels(AppResponseDto, AppExceptionResponseDto),
+    AppExceptionResponse(),
   );
 };

@@ -1,21 +1,17 @@
-import { Controller, Get, UseGuards, Logger, Request } from '@nestjs/common';
-import { AuthUser, JwtAuthGuard, CtxAuthUser } from '../auth';
-import { ApiTags, ApiBearerAuth, ApiExtraModels } from '@nestjs/swagger';
-import {
-  AppResponse,
-  AppResponseDto,
-} from '../app/decorators/appResponse.decorator';
+import { Controller, Get, Logger, Request } from '@nestjs/common';
+import { AuthUser, Auth, CtxAuthUser } from '../auth';
+import { ApiTags } from '@nestjs/swagger';
+import { AppOkResponse, AppResponse } from '../app';
 
 @Controller('example')
 @ApiTags('example')
-@UseGuards(JwtAuthGuard)
-@ApiBearerAuth('jwt')
-@ApiExtraModels(AppResponseDto)
+@Auth()
+@AppResponse()
 export class ExampleController {
   private readonly logger = new Logger(ExampleController.name);
 
   @Get('example')
-  @AppResponse({ isNull: true })
+  @AppOkResponse({ isNull: true })
   async test(
     @CtxAuthUser() user: AuthUser,
     @Request() req: any,
