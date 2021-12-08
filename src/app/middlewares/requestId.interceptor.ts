@@ -13,7 +13,6 @@ import { AppRequest } from '../interface';
 @Injectable()
 export class RequestIdInterceptor implements NestInterceptor {
   constructor(private readonly configService: ConfigService) {}
-  private readonly logger = new Logger(RequestIdInterceptor.name);
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
     const req: AppRequest = context.switchToHttp().getRequest();
 
@@ -28,6 +27,8 @@ export class RequestIdInterceptor implements NestInterceptor {
     }
 
     req.requestId = req.headers[name] as string;
+    // setting context tracing log with request Id
+    req.tracingLog = new Logger(`TracingLog-${req.requestId}`);
 
     return next.handle();
   }
