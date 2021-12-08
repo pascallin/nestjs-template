@@ -1,0 +1,4 @@
+{
+  "templatePath": ".",
+  "ignore": [".travis.yml", "LICENSE"]
+}
