@@ -19,6 +19,10 @@ export const CtxAuthUser = createParamDecorator(
   },
 );
 
-export const UseAuth = () => {
+export const JwtUseAuth = () => {
   return applyDecorators(UseGuards(JwtAuthGuard), ApiBearerAuth('jwt'));
+};
+
+export const TowFAUseAuth = () => {
+  return applyDecorators(UseGuards(JwtAuthGuard), ApiBearerAuth('two-factor'));
 };

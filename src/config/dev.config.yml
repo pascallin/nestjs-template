@@ -1,5 +1,3 @@
-JWT_SECRET: "!@^#*(&)TEST*(%&&^)"
-
 LOGGER_LEVEL:
   - verbose
   - debug

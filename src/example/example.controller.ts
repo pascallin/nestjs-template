@@ -1,16 +1,27 @@
 import { Controller, Get, Logger } from '@nestjs/common';
-import { AuthUser, UseAuth, CtxAuthUser } from '../auth';
+import { AuthUser, JwtUseAuth, CtxAuthUser, TowFAUseAuth } from '../auth';
 import { ApiTags } from '@nestjs/swagger';
 import { AppOkResponse, AppResponse, TracingLog } from '../app';
 
 @Controller('example')
 @ApiTags('example')
-@UseAuth()
 @AppResponse()
 export class ExampleController {
-  @Get('example')
+  @Get('example/auth')
+  @JwtUseAuth()
   @AppOkResponse({ isNull: true })
-  async test(
+  async authTest(
+    @CtxAuthUser() user: AuthUser,
+    @TracingLog() tracingLog: Logger,
+  ): Promise<null> {
+    tracingLog.log(user);
+    return;
+  }
+
+  @Get('example/2fa')
+  @TowFAUseAuth()
+  @AppOkResponse({ isNull: true })
+  async TwoFAest(
     @CtxAuthUser() user: AuthUser,
     @TracingLog() tracingLog: Logger,
   ): Promise<null> {
