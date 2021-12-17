@@ -12,6 +12,7 @@ import {
 import { HealthModule } from './health/health.module';
 import { AMQPModule } from './amqp';
 import { RedisModule } from './redis';
+import { ExplorerModule } from './explorer';
 import { ExampleModule } from './example/example.module';
 import { AuthModule } from './auth/auth.module';
 
@@ -22,6 +23,7 @@ import { AuthModule } from './auth/auth.module';
       load: [configuration],
     }),
     HealthModule,
+    ExplorerModule.register(),
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => ({
