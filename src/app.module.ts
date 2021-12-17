@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
+import { EventEmitterModule } from '@nestjs/event-emitter';
 
 import configuration from './config/configuration';
 import {
@@ -23,6 +24,7 @@ import { AuthModule } from './auth/auth.module';
       load: [configuration],
     }),
     HealthModule,
+    EventEmitterModule.forRoot(),
     ExplorerModule.register(),
     MongooseModule.forRootAsync({
       imports: [ConfigModule],

@@ -1,12 +1,16 @@
 import { Controller, Get, Logger } from '@nestjs/common';
-import { AuthUser, JwtUseAuth, CtxAuthUser, TowFAUseAuth } from '../auth';
 import { ApiTags } from '@nestjs/swagger';
+import { EventEmitter2 } from '@nestjs/event-emitter';
+
+import { AuthUser, JwtUseAuth, CtxAuthUser, TowFAUseAuth } from '../auth';
 import { AppOkResponse, AppResponse, TracingLog } from '../app';
 
 @Controller('example')
 @ApiTags('example')
 @AppResponse()
 export class ExampleController {
+  constructor(private readonly eventEmitter: EventEmitter2) {}
+
   @Get('example/auth')
   @JwtUseAuth()
   @AppOkResponse({ isNull: true })
@@ -26,6 +30,14 @@ export class ExampleController {
     @TracingLog() tracingLog: Logger,
   ): Promise<null> {
     tracingLog.log(user);
+    return;
+  }
+
+  @Get('example/processor')
+  @AppOkResponse({ isNull: true })
+  async testProcessor(@TracingLog() tracingLog: Logger): Promise<null> {
+    tracingLog.log('testProcessor');
+    this.eventEmitter.emit('example.test');
     return;
   }
 }
