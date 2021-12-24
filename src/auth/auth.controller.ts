@@ -1,24 +1,22 @@
 import {
   Controller,
   Post,
-  Get,
   Body,
   Res,
   UnauthorizedException,
-  Param,
 } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiTags, ApiExtraModels } from '@nestjs/swagger';
 import { Response } from 'express';
-import { AuthService, TwoFacotorAuthService, UserService } from './services';
-import { CtxAuthUser, JwtUseAuth } from './decorators/authUser.decorator';
-import { AuthUser } from './interfaces';
+import { AuthService, TwoFacotorAuthService } from './services';
+import { JwtUseAuth } from './decorators/authUser.decorator';
 import { TwoFaAuthDto, TwoFactorAuthSignInReq, AuthLoginReq } from './dto';
+import { User } from '../user/user.dto';
 
 @Controller('auth')
 @ApiTags('auth')
+@ApiExtraModels(User)
 export class AuthController {
   constructor(
-    private readonly userService: UserService,
     private readonly authService: AuthService,
     private readonly twoFacotorAuthService: TwoFacotorAuthService,
   ) {}
@@ -26,18 +24,6 @@ export class AuthController {
   @Post('login')
   async login(@Body() body: AuthLoginReq) {
     return this.authService.login(body);
-  }
-
-  @JwtUseAuth()
-  @Get('profile')
-  getProfile(@CtxAuthUser() user: AuthUser) {
-    return user;
-  }
-
-  @JwtUseAuth()
-  @Get('user/:username')
-  async getUser(@Param('username') username: string) {
-    return this.userService.findUser(username);
   }
 
   @JwtUseAuth()

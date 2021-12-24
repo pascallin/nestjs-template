@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import * as R from 'ramda';
-import { AuthUser } from '../interfaces';
+import { AuthUser } from '../auth/interfaces';
 
 @Injectable()
 export class UserService {

@@ -7,6 +7,7 @@ import { AuthController } from './auth.controller';
 import { AuthService, UserService, TwoFacotorAuthService } from './services';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { TwoFaStrategy } from './strategies/twoFA.strategy';
+import { UserModule } from '../user/user.module';
 
 @Module({
   imports: [
@@ -18,14 +19,9 @@ import { TwoFaStrategy } from './strategies/twoFA.strategy';
       }),
       inject: [ConfigService],
     }),
+    UserModule,
   ],
   controllers: [AuthController],
-  providers: [
-    JwtStrategy,
-    TwoFaStrategy,
-    AuthService,
-    UserService,
-    TwoFacotorAuthService,
-  ],
+  providers: [JwtStrategy, TwoFaStrategy, AuthService, TwoFacotorAuthService],
 })
 export class AuthModule {}

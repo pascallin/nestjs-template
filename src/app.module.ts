@@ -16,6 +16,7 @@ import { RedisModule } from './redis';
 import { ExplorerModule } from './explorer';
 import { ExampleModule } from './example/example.module';
 import { AuthModule } from './auth/auth.module';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
@@ -55,6 +56,7 @@ import { AuthModule } from './auth/auth.module';
       inject: [ConfigService],
     }),
     AuthModule,
+    UserModule,
     // NOTE: just for example
     ExampleModule,
   ],
