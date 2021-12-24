@@ -5,7 +5,7 @@ import {
   Processor,
   OnProcessCompleted,
   OnProcessFailed,
-} from '../explorer';
+} from '../processor';
 
 @Injectable()
 @Processor({ namespace: 'example' })

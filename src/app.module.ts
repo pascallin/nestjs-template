@@ -13,7 +13,7 @@ import {
 import { HealthModule } from './health/health.module';
 import { AMQPModule } from './amqp';
 import { RedisModule } from './redis';
-import { ExplorerModule } from './explorer';
+import { ProcessorModule } from './processor';
 import { ExampleModule } from './example/example.module';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
@@ -26,7 +26,7 @@ import { UserModule } from './user/user.module';
     }),
     HealthModule,
     EventEmitterModule.forRoot(),
-    ExplorerModule.register(),
+    ProcessorModule.register(),
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => ({
