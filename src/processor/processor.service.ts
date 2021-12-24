@@ -25,7 +25,7 @@ export class ProcessorModuleService
   ) {}
 
   onApplicationShutdown(signal?: string) {
-    this.logger.log('app has been shutdown.');
+    this.logger.log(`app has been shutdown with signal ${signal}.`);
   }
 
   onApplicationBootstrap() {
