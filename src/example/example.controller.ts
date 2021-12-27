@@ -2,7 +2,7 @@ import { Controller, Get, Logger } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 
-import { AuthUser, JwtUseAuth, CtxAuthUser, TowFAUseAuth } from '../auth';
+import { AuthUser, UserJWTAuth, CtxAuthUser, Use2FAAuth } from '../auth';
 import { AppOkResponse, AppResponse, TracingLog } from '../app';
 
 @Controller('example')
@@ -12,7 +12,7 @@ export class ExampleController {
   constructor(private readonly eventEmitter: EventEmitter2) {}
 
   @Get('example/auth')
-  @JwtUseAuth()
+  @UserJWTAuth()
   @AppOkResponse({ isNull: true })
   async authTest(
     @CtxAuthUser() user: AuthUser,
@@ -23,7 +23,7 @@ export class ExampleController {
   }
 
   @Get('example/2fa')
-  @TowFAUseAuth()
+  @Use2FAAuth()
   @AppOkResponse({ isNull: true })
   async TwoFAest(
     @CtxAuthUser() user: AuthUser,

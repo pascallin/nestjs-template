@@ -4,11 +4,12 @@ import { Strategy, ExtractJwt } from 'passport-jwt';
 import { AuthUser, JwtPayload } from '../interfaces';
 import { ConfigService } from '@nestjs/config';
 import { UserService } from '../services';
+import { TWO_FACTOR_AUTH_STRATAGE_NAME } from '../constants';
 
 @Injectable()
 export class TwoFaStrategy extends PassportStrategy(
   Strategy,
-  'jwt-two-factor',
+  TWO_FACTOR_AUTH_STRATAGE_NAME,
 ) {
   constructor(
     private readonly configService: ConfigService,

@@ -8,6 +8,10 @@ import { ApiBearerAuth } from '@nestjs/swagger';
 import { Request } from 'express';
 import { AuthUser } from '../interfaces';
 import { JwtAuthGuard } from '../guards/jwt.guard';
+import {
+  TWO_FACTOR_AUTH_STRATAGE_NAME,
+  JWT_AUTH_STRATAGE_NAME,
+} from '../constants';
 
 export const CtxAuthUser = createParamDecorator(
   (data: unknown, context: ExecutionContext) => {
@@ -19,10 +23,16 @@ export const CtxAuthUser = createParamDecorator(
   },
 );
 
-export const JwtUseAuth = () => {
-  return applyDecorators(UseGuards(JwtAuthGuard), ApiBearerAuth('jwt'));
+export const UserJWTAuth = () => {
+  return applyDecorators(
+    UseGuards(JwtAuthGuard),
+    ApiBearerAuth(JWT_AUTH_STRATAGE_NAME),
+  );
 };
 
-export const TowFAUseAuth = () => {
-  return applyDecorators(UseGuards(JwtAuthGuard), ApiBearerAuth('two-factor'));
+export const Use2FAAuth = () => {
+  return applyDecorators(
+    UseGuards(JwtAuthGuard),
+    ApiBearerAuth(TWO_FACTOR_AUTH_STRATAGE_NAME),
+  );
 };

@@ -8,7 +8,7 @@ import {
 import { ApiTags, ApiExtraModels } from '@nestjs/swagger';
 import { Response } from 'express';
 import { AuthService, TwoFacotorAuthService } from './services';
-import { JwtUseAuth } from './decorators/authUser.decorator';
+import { UserJWTAuth } from './decorators/authUser.decorator';
 import { TwoFaAuthDto, TwoFactorAuthSignInReq, AuthLoginReq } from './dto';
 import { User } from '../user/user.dto';
 
@@ -26,7 +26,7 @@ export class AuthController {
     return this.authService.login(body);
   }
 
-  @JwtUseAuth()
+  @UserJWTAuth()
   @Post('qrcode')
   async generateQrCode(
     @Body() body: TwoFactorAuthSignInReq,
