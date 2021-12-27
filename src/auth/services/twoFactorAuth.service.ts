@@ -2,6 +2,7 @@ import {
   Injectable,
   UnauthorizedException,
   ConflictException,
+  NotFoundException,
 } from '@nestjs/common';
 import { Response } from 'express';
 import { AuthUser } from '../interfaces';
@@ -51,24 +52,42 @@ export class TwoFacotorAuthService {
     otpAuthUrl;
   }> {
     const auth = this.userService.findUser(username);
-    if (auth) {
-      if (auth.isTwoFactorEnable) {
-        throw new ConflictException('Already QR generated');
-      }
+    if (!auth) {
+      throw new NotFoundException('Count not found user');
     }
+    if (auth.isTwoFactorEnable) {
+      throw new ConflictException(
+        'Not allow two factor code auth for this user',
+      );
+    }
+    // if (auth && auth.twoFactorAuthSecret) {
+    //   throw new ConflictException('Already QR generated');
+    // }
 
-    const secret = authenticator.generateSecret();
     const app_name = this.configService.get<string>(
       'TWO_FACTOR_AUTHENTICATION_APP_NAME',
     );
-    const otpAuthUrl = authenticator.keyuri(username, app_name, secret);
+    if (auth && auth.twoFactorAuthSecret) {
+      const otpAuthUrl = authenticator.keyuri(
+        username,
+        app_name,
+        auth.twoFactorAuthSecret,
+      );
+      return {
+        secret: auth.twoFactorAuthSecret,
+        otpAuthUrl,
+      };
+    } else {
+      const secret = authenticator.generateSecret();
+      const otpAuthUrl = authenticator.keyuri(username, app_name, secret);
 
-    await this.userService.update(username, { twoFactorAuthSecret: secret });
+      await this.userService.update(username, { twoFactorAuthSecret: secret });
 
-    return {
-      secret,
-      otpAuthUrl,
-    };
+      return {
+        secret,
+        otpAuthUrl,
+      };
+    }
   }
 
   public async verifyTwoFaCode(code: string, username: string) {
