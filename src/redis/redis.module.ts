@@ -1,41 +1,81 @@
-import { Module, DynamicModule, Global, OnModuleDestroy } from '@nestjs/common';
-import { ModuleRef } from '@nestjs/core';
-import IORedis, { RedisOptions, Redis } from 'ioredis';
+import { Module, DynamicModule, Global, Provider } from '@nestjs/common';
+import { nanoid } from 'nanoid';
+import * as Redis from 'ioredis';
 
 import {
+  getRedisModuleOptionsProviderToken,
   getRedisClientProviderToken,
-  getRedisOptionsProviderToken,
 } from './utils';
-import { RedisAsyncOptionsInterface } from './redis.interface';
+import { RedisModuleAsyncOptions, RedisModuleOptions } from './redis.interface';
+import { RedisConnService } from './redis-conn.service';
 
 @Global()
-@Module({})
-export class RedisModule implements OnModuleDestroy {
-  constructor(private readonly moduleRef: ModuleRef) {}
-
-  static forRootAsync(options: RedisAsyncOptionsInterface): DynamicModule {
-    const clientProvider = {
-      provide: getRedisClientProviderToken(),
-      useFactory: (config: RedisOptions): IORedis.Redis => new IORedis(config),
-      inject: [getRedisOptionsProviderToken()],
+@Module({
+  providers: [RedisConnService],
+  exports: [RedisConnService],
+})
+export class RedisModule {
+  static register(options: RedisModuleOptions | RedisModuleOptions[]) {
+    return {
+      module: RedisModule,
+      providers: [
+        {
+          provide: getRedisModuleOptionsProviderToken(),
+          useValue: options,
+        },
+        RedisModule.createClientProvider(),
+      ],
+      exports: [RedisConnService],
     };
+  }
+
+  static forRootAsync(options: RedisModuleAsyncOptions): DynamicModule {
     return {
       module: RedisModule,
       imports: options.imports,
       providers: [
         {
-          provide: getRedisOptionsProviderToken(),
+          provide: getRedisModuleOptionsProviderToken(),
           useFactory: options.useFactory,
           inject: options.inject || [],
         },
-        clientProvider,
+        RedisModule.createClientProvider(),
       ],
-      exports: [clientProvider],
+      exports: [RedisConnService],
     };
   }
 
-  async onModuleDestroy(): Promise<void> {
-    const connection = this.moduleRef.get<Redis>(getRedisClientProviderToken());
-    connection !== null && (await connection.disconnect());
+  static createClientProvider(): Provider {
+    return {
+      provide: getRedisClientProviderToken(),
+      useFactory: async (
+        options: RedisModuleOptions | RedisModuleOptions[],
+      ): Promise<Map<string, Redis.Redis | Redis.Cluster>> => {
+        const clients = new Map<string, Redis.Redis>();
+        if (Array.isArray(options)) {
+          options.map((option: RedisModuleOptions) => {
+            const key = option.name || nanoid();
+            let client;
+            if (option.isCluster) {
+              client = new Redis.Cluster(option.option as Redis.ClusterNode[]);
+            } else {
+              client = new Redis(option.option as Redis.RedisOptions);
+            }
+            clients.set(key, client);
+          });
+        } else {
+          const key = options.name || nanoid();
+          let client;
+          if (options.isCluster) {
+            client = new Redis.Cluster(options.option as Redis.ClusterNode[]);
+          } else {
+            client = new Redis(options.option as Redis.RedisOptions);
+          }
+          clients.set(key, client);
+        }
+        return clients;
+      },
+      inject: [getRedisModuleOptionsProviderToken()],
+    };
   }
 }

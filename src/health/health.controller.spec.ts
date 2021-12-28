@@ -3,7 +3,7 @@ import { TerminusModule } from '@nestjs/terminus';
 import { getConnectionToken } from '@nestjs/mongoose';
 
 import { HealthController } from './health.controller';
-import { getRedisClientProviderToken } from '../redis';
+import { RedisConnService } from '../redis';
 import { RedisHealthIndicator } from './redis.health';
 
 describe('HealthController', () => {
@@ -24,7 +24,12 @@ describe('HealthController', () => {
       controllers: [HealthController],
       providers: [
         RedisHealthIndicator,
-        { provide: getRedisClientProviderToken(), useValue: MockRedisClient },
+        {
+          provide: RedisConnService,
+          useValue: {
+            getConnection: () => MockRedisClient,
+          },
+        },
         { provide: getConnectionToken(), useValue: MockMongooseClient },
       ],
     }).compile();

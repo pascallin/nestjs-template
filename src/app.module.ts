@@ -38,12 +38,25 @@ import { UserModule } from './user/user.module';
       inject: [ConfigService],
     }),
     RedisModule.forRootAsync({
-      useFactory: async (configService: ConfigService) => ({
-        host: configService.get<string>('REDIS_HOST'),
-        password: configService.get<string>('REDIS_PASSWORD'),
-        port: parseInt(configService.get<string>('REDIS_PORT')),
-        db: parseInt(configService.get<string>('REDIS_DATABASE')),
-      }),
+      useFactory: async (configService: ConfigService) => [
+        {
+          name: 'test',
+          option: {
+            host: configService.get<string>('REDIS_HOST'),
+            password: configService.get<string>('REDIS_PASSWORD'),
+            port: parseInt(configService.get<string>('REDIS_PORT')),
+            db: parseInt(configService.get<string>('REDIS_DATABASE')),
+          },
+        },
+        {
+          name: 'cluster',
+          option: {
+            host: configService.get<string>('REDIS_HOST'),
+            port: parseInt(configService.get<string>('REDIS_CLUSTER_PORT')),
+            db: parseInt(configService.get<string>('REDIS_DATABASE')),
+          },
+        },
+      ],
       inject: [ConfigService],
     }),
     AMQPModule.forRootAsync({

@@ -23,6 +23,7 @@ export class HealthController {
     return this.health.check([
       () => this.mongoose.pingCheck('mongo connection'),
       () => this.redis.isHealthy(),
+      () => this.redis.isClusterHealthy(),
     ]);
   }
 }
