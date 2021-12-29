@@ -91,10 +91,13 @@ export class TwoFacotorAuthService {
   }
 
   public async verifyTwoFaCode(code: string, username: string) {
-    const auth = this.userService.findUser(username);
+    const user = this.userService.findUser(username);
+    if (!user) {
+      throw new NotFoundException('Could not found user');
+    }
     return authenticator.verify({
       token: code,
-      secret: auth.twoFactorAuthSecret,
+      secret: user.twoFactorAuthSecret,
     });
   }
 }
