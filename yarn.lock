@@ -7,6 +7,20 @@
   "resolved" "https://registry.npmjs.org/@aduh95/viz.js/-/viz.js-3.5.0.tgz"
   "version" "3.5.0"
 
+"@albert-team/rebloom@^2.5.0":
+  "integrity" "sha512-a8owfqQ8AjCvnhtmSGod3DcYGuiuTEmtCZFCazYyT6E9V+gzQLF6HaPd8Et5zvI9+i8xt5IFNCmBbmVZBn68wA=="
+  "resolved" "https://registry.npmjs.org/@albert-team/rebloom/-/rebloom-2.5.0.tgz"
+  "version" "2.5.0"
+  dependencies:
+    "@albert-team/red" "^0.8.0"
+
+"@albert-team/red@^0.8.0":
+  "integrity" "sha512-ImLE9xKqnxS5TEaWl9fGGdSbyv/CbGF4RtuGBYRl6pdiJraqIWGA5V4WhIgKRX2CnnH8v5sjCNibJv7C+uAeRQ=="
+  "resolved" "https://registry.npmjs.org/@albert-team/red/-/red-0.8.0.tgz"
+  "version" "0.8.0"
+  dependencies:
+    "redis-parser" "^3.0.0"
+
 "@angular-devkit/core@11.2.4":
   "integrity" "sha512-98mGDV4XtKWiQ/2D6yzvOHrnJovXchaAN9AjscAHd2an8Fkiq72d9m2wREpk+2J40NWTDB6J5iesTh3qbi8+CA=="
   "resolved" "https://registry.npmjs.org/@angular-devkit/core/-/core-11.2.4.tgz"
@@ -1836,6 +1850,11 @@
     "jest-diff" "^26.0.0"
     "pretty-format" "^26.0.0"
 
+"@types/js-yaml@^4.0.5":
+  "integrity" "sha512-FhpRzf927MNQdRZP0J5DLIdTXhjLYzeUTmLAu69mnVksLH9CJY3IuSeEgbKUki7GQZm0WqDkGzyxju2EZGD2wA=="
+  "resolved" "https://registry.npmjs.org/@types/js-yaml/-/js-yaml-4.0.5.tgz"
+  "version" "4.0.5"
+
 "@types/json-schema@*", "@types/json-schema@^7.0.3", "@types/json-schema@^7.0.4", "@types/json-schema@^7.0.5", "@types/json-schema@^7.0.6", "@types/json-schema@^7.0.8":
   "integrity" "sha512-qcUXuemtEu+E5wZSJHNxUXeCZhAfXKQ41D+duX+VYPde7xyEVZci+/oXKJL13tnRs9lR2pr4fod59GT6/X1/yQ=="
   "resolved" "https://registry.npmjs.org/@types/json-schema/-/json-schema-7.0.9.tgz"
@@ -2506,6 +2525,11 @@
   "version" "1.0.10"
   dependencies:
     "sprintf-js" "~1.0.2"
+
+"argparse@^2.0.1":
+  "integrity" "sha512-8+9WqebbFzpX9OR+Wa6O29asIogeRMzcGtAINdpMHHyAg10f05aSFVBbcEqGf/PXw1EjAZ+q2/bEBg3DvurK3Q=="
+  "resolved" "https://registry.npmjs.org/argparse/-/argparse-2.0.1.tgz"
+  "version" "2.0.1"
 
 "arr-diff@^4.0.0":
   "integrity" "sha1-1kYQdP6/7HHn4VI1dhoyml3HxSA="
@@ -5978,6 +6002,13 @@
   dependencies:
     "argparse" "^1.0.7"
     "esprima" "^4.0.0"
+
+"js-yaml@^4.1.0":
+  "integrity" "sha512-wpxZs9NoxZaJESJGIZTyDEaYpl0FKSA+FB9aJiyemKhMwkxQg63h4T1KJgUGHpTqPDNRcmmYLugrRjJlBtWvRA=="
+  "resolved" "https://registry.npmjs.org/js-yaml/-/js-yaml-4.1.0.tgz"
+  "version" "4.1.0"
+  dependencies:
+    "argparse" "^2.0.1"
 
 "jsbn@~0.1.0":
   "integrity" "sha1-peZUwuWi3rXyAdls77yoDA7y9RM="

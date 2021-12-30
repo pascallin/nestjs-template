@@ -17,6 +17,7 @@ import { ProcessorModule } from './processor';
 import { ExampleModule } from './example/example.module';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
+import { BloomFilterModule } from './bloomfilter/bloomfilter.module';
 
 @Module({
   imports: [
@@ -53,7 +54,6 @@ import { UserModule } from './user/user.module';
           option: {
             host: configService.get<string>('REDIS_HOST'),
             port: parseInt(configService.get<string>('REDIS_CLUSTER_PORT')),
-            db: parseInt(configService.get<string>('REDIS_DATABASE')),
           },
         },
       ],
@@ -72,6 +72,7 @@ import { UserModule } from './user/user.module';
     UserModule,
     // NOTE: just for example
     ExampleModule,
+    BloomFilterModule,
   ],
   providers: [
     {
