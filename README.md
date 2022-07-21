@@ -1,3 +1,5 @@
+[![wakatime](https://wakatime.com/badge/github/pascallin/nestjs-template.svg)](https://wakatime.com/badge/github/pascallin/nestjs-template)
+
 # A Nest Template
 
 ## Tech Stack
